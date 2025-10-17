@@ -1,21 +1,16 @@
-/ {
-    /*
-     * Tidbit + Nullbits OLED overlay for ZMK (SSD1306 128x32 at 0x3C).
-     *
-     * Notes:
-     * - This overlay uses &i2c0. If your Tidbit variant exposes a different I2C controller
-     *   (e.g. &i2c1), replace &i2c0 below with the correct node from your board DTS.
-     * - Reset GPIO is commented out by default. Uncomment and update if your Nullbits module
-     *   has a reset line wired to a GPIO.
-     */
+/*
+ * Tidbit Rev2 + Nullbits OLED overlay for ZMK (SSD1306 128x32 at 0x3C).
+ *
+ * Updated to use &i2c1 for tidbit_rev2. If your module uses a different I2C
+ * controller or address, tell me and I'll update again.
+ */
 
-    chosen {
-        zephyr,console = &uart0;
-    };
+/chosen {
+    zephyr,console = &uart0;
 };
 
-/* Enable the I2C controller used for the OLED (change &i2c0 if needed) */
-&i2c0 {
+/* Enable the I2C controller used for the OLED (tidbit_rev2 uses &i2c1) */
+&i2c1 {
     status = "okay";
 
     /* Node name "nullbits_oled" and reg 0x3c for the common Nullbits SSD1306 */
@@ -31,8 +26,7 @@
     };
 };
 
-/* Ensure a display node is enabled; many boards already expose &display.
-   If yours doesn't, keep this block; otherwise it's fine to leave as-is. */
+/* Ensure a display node is enabled; many boards already expose &display. */
 &display {
     status = "okay";
     label = "OLED_DISPLAY";
